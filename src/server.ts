@@ -1,31 +1,20 @@
 import type * as Party from "partykit/server";
 
-export default class Server implements Party.Server {
-  constructor(readonly room: Party.Room) {}
+// A simple websocket server that
+// responds to `ping` with `pong`
 
-  onConnect(conn: Party.Connection, ctx: Party.ConnectionContext) {
-    // A websocket just connected!
-    console.log(
-      `Connected:
-  id: ${conn.id}
-  room: ${this.room.id}
-  url: ${new URL(ctx.request.url).pathname}`
-    );
+export default {
+  onSocket(ws) {
+    ws.addEventListener("message", async function (event) {
+      if (event.data === "ping") {
+        ws.send("pong");
+        // await sleep(1000);
+        // ws.close(1011, "some other reason");
+      }
+    });
+  },
+} satisfies Party.PartyKitServer;
 
-    // let's send a message to the connection
-    conn.send("hello from server");
-  }
-
-  onMessage(message: string, sender: Party.Connection) {
-    // let's log the message
-    console.log(`connection ${sender.id} sent message: ${message}`);
-    // as well as broadcast it to all the other connections in the room...
-    this.room.broadcast(
-      `${sender.id}: ${message}`,
-      // ...except for the connection it came from
-      [sender.id]
-    );
-  }
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-Server satisfies Party.Worker;

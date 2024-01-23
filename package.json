@@ -1,5 +1,5 @@
 {
-  "name": "partykit-typescript-starter",
+  "name": "partysocket-as-promised",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -7,10 +7,12 @@
     "deploy": "partykit deploy"
   },
   "dependencies": {
-    "partysocket": "^0.0.21"
+    "partysocket": "^0.0.23",
+    "websocket-as-promised": "^2.0.1",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
-    "partykit": "^0.0.73",
+    "partykit": "^0.0.77",
     "typescript": "^5.3.3"
   }
 }
